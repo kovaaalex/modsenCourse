@@ -1,24 +1,27 @@
 import { startTimer, stopTimer, decrementSeconds } from "./store/actions";
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from "react";
-export const TimerComponent = ({timeInSeconds, isRunning, startTimer, stopTimer, decrementSeconds}) => {
+const TimerComponent = () => {
+    const dispatch = useDispatch();
+    const timeInSeconds = useSelector(state => state.timeInSeconds);
+    const isRunning = useSelector(state => state.isRunning);
     const handleStart = () => {
         const minutes = parseInt(document.getElementById('minutes').value) || 0;
         const seconds = parseInt(document.getElementById('seconds').value) || 0;
         const totalSeconds = minutes * 60 + seconds;
         if(totalSeconds > 0 && !isRunning) {
-            startTimer(totalSeconds);
+            dispatch(startTimer(totalSeconds));
         }
     }
     useEffect(() => {
         let interval;
         if(isRunning && timeInSeconds > 0) {
             interval = setInterval(() => {
-                decrementSeconds();
+                dispatch(decrementSeconds());
             }, 1000);
         }
         else if (timeInSeconds <= 0 && isRunning)
-            stopTimer();
+            dispatch(stopTimer());
         return () => clearInterval(interval)
     }, [timeInSeconds]);
     const formatTime = (seconds) => {
@@ -41,15 +44,4 @@ export const TimerComponent = ({timeInSeconds, isRunning, startTimer, stopTimer,
             </button>
         </div>)
 };
-const mapStateToProps = (state) => ({
-    timeInSeconds: state.timeInSeconds,
-    isRunning: state.isRunning
-});
-
-const mapDispatchToProps = {
-    startTimer,
-    stopTimer,
-    decrementSeconds
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(TimerComponent);
+export default TimerComponent;

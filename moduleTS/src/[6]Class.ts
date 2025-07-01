@@ -11,4 +11,4 @@ class Child {
 }
 
 const older = new Child(20);
-older.print(); // Выведет: 20
+older.print();

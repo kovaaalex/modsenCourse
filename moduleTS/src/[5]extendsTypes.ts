@@ -26,3 +26,16 @@ class Collection<T> implements ICollection<T> {
 }
 const arr = new Collection<number>([2,3,4]);
 console.log(arr.items);
+//2
+type BooleanOrString<T> = T extends boolean ? boolean : string;
+const bool = true;
+const str = "hello";
+//3
+type ValueType<T, K extends keyof T>= T[K];
+interface User {
+  name: string;
+  age: number;
+  isActive: boolean;
+}
+
+type NameType = ValueType<User, 'name'>;

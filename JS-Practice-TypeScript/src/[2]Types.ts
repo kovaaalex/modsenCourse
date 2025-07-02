@@ -14,10 +14,8 @@ function processStatus(status: ProcessStatus | never): string {
   switch (status) {
     case "Строка1":
       return "Это была строка1";
-    
     case "Строка2":
       return "А это была строка 2";
-    
     case "Строка3":
       return "Строка3";
     case "Строка4":
